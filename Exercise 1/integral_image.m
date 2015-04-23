@@ -9,6 +9,23 @@ function[Ii] = integral_image(I)
 % Use the following identity (valid for i > 1 and j > 1)
 % ˜I(i, j) = I(i-1, j-1)+ ˜I(i-1, j)+ ˜I(i, j-1) - ˜I(i-1, j-1)
 
-Ii = {};
+n = size(I,1);
+p = size(I,2);
+
+Ii = size(n+1, p+1);
+
+for i = 1:n+1
+    Ii(i,1)= 0;
+end
+
+for j = 1:p+1
+    Ii(1,j)= 0;
+end
+
+for i = 2:n+1
+    for j = 2:p+1
+        Ii(i,j)= I(i-1,j-1) + Ii(i-1,j) + Ii(i,j-1) - Ii(i-1,j-1);
+    end
+end
 
 end
