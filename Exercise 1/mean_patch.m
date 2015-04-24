@@ -1,13 +1,12 @@
 function [mean] = mean_patch(Ii, a, x, y)
 % =========== Part 2 b: Mean Patch =============
-% We take a patch of side a centered on the pixel (i, j) of interest and we consider its 8 neighbouring patches
-% By using mean_patch.m and a loop over the patch indexes, implement a function mean_features.m taking as input arguments
+% Input Arguments
 %  an integral image Ii
 %  the side of the patches a
 %   the coordinates (a,b) of this patch
 % Returns the feature vector as the mean of intensities of I over the patch of side a centered on (a,b).
 % Note: In the configuration of the Figure 1, the sum of intensities of I over the gray rectangle is given by
-% I(y,x) = Ii(y2+1,x2+1) - Ii(y2+1,x1) - Ii(y1,x2+1)+ Ii(y1,x1)
+% sum(I(y,x)) = Ii(y2+1,x2+1) - Ii(y2+1,x1) - Ii(y1,x2+1)+ Ii(y1,x1)
 
 mean = 0;
 
