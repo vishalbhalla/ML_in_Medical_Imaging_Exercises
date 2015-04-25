@@ -19,6 +19,6 @@ y1 = row;
 x2 = col + a;
 y2 = row + a;
 
-mean = abs((Ii(y2+1,x2+1) - Ii(y2+1,x1) - Ii(y1,x2+1)+ Ii(y1,x1))/a);
+mean = (Ii(y2+1,x2+1) - Ii(y2+1,x1+1) - Ii(y1+1,x2+1)+ Ii(y1+1,x1+1))/a; % Removed the abs value function.
 
 end
