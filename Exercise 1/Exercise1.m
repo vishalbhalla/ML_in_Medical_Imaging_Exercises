@@ -32,7 +32,8 @@ side = 2*p +1;
 % Randomly generate value for sigma.
 sigma = randi(5)/4;
 
-%[X] = standard_filters(I, filters, side, sigma);
+% Call the function standard_filters
+[X] = standard_filters(I, filters, side, sigma);
 
 
 %% =========== Part 2: Features based on integral images =============
