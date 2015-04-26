@@ -30,7 +30,9 @@ for f = 1:fcount
         Delta = {};
         Delta = [Delta;[DeltaRow;DeltaColumn]];
         X = [X;Delta];
-         
+        imshow(DeltaRow);
+        imshow(DeltaColumn);
+
     elseif strcmp(filters(f),'diagonal derivatives')
         
         DeltaDiagRow(1,columns) = 0;
@@ -68,41 +70,57 @@ for f = 1:fcount
         DeltaDiag = {};
         DeltaDiag = [DeltaDiag;[DeltaDiagRow;DeltaDiagColumn]];
         X = [X;DeltaDiag];
-
-    elseif strcmp(filters(f),'mean')
-
-        % Calculate the top-left co-ordinates
-        startR = (size(I,1)-5*side - 10)/2;
-        startC = (size(I,2)-8*side - 5)/2;
         
+        imshow(DeltaDiagRow);
+        imshow(DeltaDiagColumn);
+        
+    elseif strcmp(filters(f),'mean')
+        
+        meanVal = 0;
+        % Calculate the top-left co-ordinates
+        startR = (size(I,1)-4*side - 10)/2;
+        startC = (size(I,2)-8*side - 2)/2;
+        
+        patch = size(side); % Select out the patch to compute the mean over it using library function.
+        p=1; q=1;
         for i = startR:(startR +side)
             for j = startC:(startC +side)
-                mean = mean + I(i,j);
+                patch(p,q) = I(i,j);
+                q = q+1;
             end
+            q = 1;
+            p = p+1;
         end
-        mean = mean/(a*a);
-        X = [X;mean];
+        meanVal = mean(patch);
+        X = [X;meanVal];
+        imshow(patch);
 
     elseif strcmp(filters(f),'std')
         
+        sd = 0;
         % Calculate the top-left co-ordinates
-        startR = (size(I,1)-5*side - 10)/2;
-        startC = (size(I,2)-8*side - 5)/2;
-        patch = size(side, side);
+        startR = (size(I,1)-4*side - 10)/2;
+        startC = (size(I,2)-8*side - 2)/2;
+        patch = size(side); % Select out the patch to compute the mean over it using library function.
+        p=1; q=1;
 
         for i = startR:(startR +side)
             for j = startC:(startC +side)
-                patch(i,j) = I(i,j);
+                patch(p,q) = I(i,j);
+                q = q+1;
             end
+            q = 1;
+            p = p+1;
         end
         
         sd = std(patch);
         X = [X;sd];
+        imshow(patch);
      
     elseif strcmp(filters(f),'gaussian')
         
         hsize = 6*sigma + 1;
-        K = fspecial('gaussian', hsize, sigma);
+        K = fspecial('gaussian', [hsize, hsize], sigma);
         crossCorelationProduct = imfilter(I,K,'replicate','same’');
         X = [X;crossCorelationProduct];
         
