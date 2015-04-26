@@ -20,7 +20,7 @@ imshow(I);
 %  The value of such a feature xk(i, j) is a linear combination of the intensities within the neighbourhood of (i, j).
  
 % Extraction of standard features at each pixel from the given sample image.
-filters = {'straight derivatives', 'diagonal derivatives', 'mean'};
+filters = {'straight derivatives', 'diagonal derivatives', 'mean', 'std', 'gaussian', 'LoG', 'all'};
 
 % Generate a random number between 1 to 10
 p = randi(10);
@@ -49,17 +49,19 @@ imshow(Ii);
 
 % =========== Part 2 b: Mean Patch =============
 % Call the function mean_patch
-%X2b = mean_patch(Ii, side);
+x = (size(Ii,1)-5*side - 10)/2;
+y = (size(Ii,2)-8*side - 5)/2;
+mean2b = mean_patch(Ii, side, x, y);
 
 
 % =========== Part 2 c: Mean Features =============
 % Call the function mean_features
-X2c = mean_features(Ii, side);
+X2c = mean_features(Ii, side, x, y);
 
 
 % =========== Part 2 d: Local Binary Patterns =============
 % Call the function lbp
-X2d = lbp(Ii, side);
+X2d = lbp(Ii, side, x, y);
 
 
 % =========== Part 2 e: Long Range Features =============
