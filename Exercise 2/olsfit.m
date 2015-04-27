@@ -3,5 +3,12 @@ function [Coeff] = olsfit(X, y)
 % The function should return the ordinary least squares (OLS) estimate of the coefficients Bˆ (including the intercept).
 
 Coeff = 0;
+[n,m] = size(X);
+
+% Add intercept term to X
+X = [ones(n, 1) X];
+
+%Definition (Ordinary Least Squares Estimate)
+Coeff = inv(X'*X)* X' * y;
 
 end
