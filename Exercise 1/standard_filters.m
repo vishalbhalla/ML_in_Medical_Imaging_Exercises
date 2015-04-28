@@ -71,8 +71,8 @@ for f = 1:fcount
         DeltaDiag = [DeltaDiag;[DeltaDiagRow;DeltaDiagColumn]];
         X = [X;DeltaDiag];
         
-        imshow(DeltaDiagRow);
-        imshow(DeltaDiagColumn);
+        %imshow(DeltaDiagRow);
+        %imshow(DeltaDiagColumn);
         
     elseif strcmp(filters(f),'mean')
         
@@ -93,7 +93,7 @@ for f = 1:fcount
         end
         meanVal = mean(patch);
         X = [X;meanVal];
-        imshow(patch);
+        %imshow(patch);
 
     elseif strcmp(filters(f),'std')
         
@@ -115,57 +115,57 @@ for f = 1:fcount
         
         sd = std(patch);
         X = [X;sd];
-        imshow(patch);
+        %imshow(patch);
      
     elseif strcmp(filters(f),'gaussian')
         
         hsize = 6*sigma + 1;
-        K = fspecial('gaussian', [hsize, hsize], sigma);
-        crossCorelationProduct = imfilter(I,K,'replicate','same’');
+        K = fspecial('gaussian', floor(hsize), sigma);
+        crossCorelationProduct = imfilter(I,K,'replicate','same');
         X = [X;crossCorelationProduct];
         
     elseif strcmp(filters(f),'LoG')
         
         hsize = 6*sigma + 1;
-        K = fspecial('log', hsize, sigma);
-        crossCorelationProduct = imfilter(I,K,'replicate','same’');
+        K = fspecial('log', floor(hsize), sigma);
+        crossCorelationProduct = imfilter(I,K,'replicate','same');
         X = [X;crossCorelationProduct];
         
     elseif strcmp(filters(f),'all')
         
         hsize = side;
         K = fspecial('average', hsize);
-        crossCorelationProduct = imfilter(I,K,'replicate','same’');
+        crossCorelationProduct = imfilter(I,K,'replicate','same');
         X = [X;crossCorelationProduct];
        
         radius = (side-1)/2;
         K = fspecial('disk', radius);
-        crossCorelationProduct = imfilter(I,K,'replicate','same’');
-        X = [X;crossCorelationProduct];
-        
-        K = fspecial('gaussian');
-        crossCorelationProduct = imfilter(I,K,'replicate','same’');
-        X = [X;crossCorelationProduct];
-        
-        K = fspecial('laplacian', sigma);
-        crossCorelationProduct = imfilter(I,K,'replicate','same’');
+        crossCorelationProduct = imfilter(I,K,'replicate','same');
         X = [X;crossCorelationProduct];
         
         hsize = 6*sigma + 1;
-        K = fspecial('log', hsize, sigma);
-        crossCorelationProduct = imfilter(I,K,'replicate','same’');
+        K = fspecial('gaussian', floor(hsize), sigma);
+        crossCorelationProduct = imfilter(I,K,'replicate','same');
+        X = [X;crossCorelationProduct];
+        
+        K = fspecial('laplacian');
+        crossCorelationProduct = imfilter(I,K,'replicate','same');
+        X = [X;crossCorelationProduct];
+        
+        K = fspecial('log', floor(hsize), sigma);
+        crossCorelationProduct = imfilter(I,K,'replicate','same');
         X = [X;crossCorelationProduct];
         
         K = fspecial('motion');
-        crossCorelationProduct = imfilter(I,K,'replicate','same’');
+        crossCorelationProduct = imfilter(I,K,'replicate','same');
         X = [X;crossCorelationProduct];
         
         K = fspecial('prewitt');
-        crossCorelationProduct = imfilter(I,K,'replicate','same’');
+        crossCorelationProduct = imfilter(I,K,'replicate','same');
         X = [X;crossCorelationProduct];
         
         K = fspecial('sobel');
-        crossCorelationProduct = imfilter(I,K,'replicate','same’');
+        crossCorelationProduct = imfilter(I,K,'replicate','same');
         X = [X;crossCorelationProduct];
         
     end
