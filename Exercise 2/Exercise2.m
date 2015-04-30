@@ -11,46 +11,49 @@
 %  The measurements are age, weight, height, BMI, neck, chest, abdomen, hip, thigh, knee, ankle, bicep, forearm, and wrist [?].
 
 % =========== Loading and Visualizing the Dataset =============
-X = load('bodyfat.csv');
-y = bodyfat(:,2); % siri - Percent body fat from Siri's (1956) equation
-X = X(:,3:end);
-% age = bodyfat(:,3);           %  Age (years)
-% weight = bodyfat(:,4);        %  Weight (lbs)
-% height = bodyfat(:,5);        %  Height (inches)
-% neck = bodyfat(:,6);          %  Neck circumference (cm)
-% chest = bodyfat(:,7);         %  Chest circumference (cm)
-% abdomen = bodyfat(:,8);       %  Abdomen 2 circumference (cm)
-% hip = bodyfat(:,9);           %  Hip circumference (cm)
-% thigh = bodyfat(:,10);        %  Thigh circumference (cm)
-% knee = bodyfat(:,11);         %  Knee circumference (cm)
-% ankle = bodyfat(:,12);        %  Ankle circumference (cm)
-% biceps = bodyfat(:,13);       %  Biceps (extended) circumference (cm)
-% forearm = bodyfat(:,14);      %  Forearm circumference (cm)
-% wrist = bodyfat(:,15);        %  Wrist circumference (cm)
+%X = load(bodyfat.csv');
+
+% Load the file from the sub directory data excluding the Header Row containing the column names.
+X = csvread(fullfile('data', 'bodyfat.csv'),1,0);
+
+Y = X(:,1);               %  body.fat - Percent body fat from Siri's (1956) equation
+X = X(:,2:end);           %  Extract all features, excluding the outcomes in the first column.
+% age = X(:,2);           %  Age (years)
+% weight = X(:,3);        %  Weight (lbs)
+% height = X(:,4);        %  Height (inches)
+% neck = X(:,5);          %  BMI
+% neck = X(:,6);          %  Neck circumference (cm)
+% chest = X(:,7);         %  Chest circumference (cm)
+% abdomen = X(:,8);       %  Abdomen 2 circumference (cm)
+% hip = X(:,9);           %  Hip circumference (cm)
+% thigh = X(:,10);        %  Thigh circumference (cm)
+% knee = X(:,11);         %  Knee circumference (cm)
+% ankle = X(:,12);        %  Ankle circumference (cm)
+% biceps = X(:,13);       %  Biceps (extended) circumference (cm)
+% forearm = X(:,14);      %  Forearm circumference (cm)
+% wrist = X(:,15);        %  Wrist circumference (cm)
 
 % Displaying the dataset.
 
+% Add intercept term to X
+[n,m] = size(X);
+X = [ones(n, 1) X];
 
 % =========== Part 1 a: Ordinary Least Squares (OLS) estimate of the coefficients Bˆ (including the intercept). =============
 %  Call the function olsfit.m
 %  to return the ordinary least squares (OLS) estimate of the coefficients Bˆ (including the intercept).
-Coeff = olsfit(X, y);
+Coeff = olsfit(X, Y);
 
 % =========== Part 1 b i: Multiple models that predict the amount of body fat =============
-% Call the function 
-
-
 % =========== Part 1 b ii: Scatter plot for each of the multiple models predicting body fat =============
-% Call the function 
+% Call the function createMultipleModelsScatter
+[MultipleModels, ScatterPlots] = createMultipleModelsScatter(X, Y, Coeff);
 
 
-% =========== Part 1 c i: Single model that predicts the amount of body fat =============
-% Call the function 
-
-
+% =========== Part 1 c i: Single model that predicts the amount of body fat alongwith =============
 % =========== Part 1 c ii: Features having the highest/lowest coefficients =============
-% Call the function 
-
+% Call the function createSingleModel
+[SingleModel, HighestCoeff, HighestCoeffIdx, LowestCoeff, LowestCoeffIdx] = createSingleModel(X, Y, Coeff);
 
 
 %% =========== Part 2: Logistic Regression =============
