@@ -14,7 +14,6 @@ meanSqError = 0;
 [n,m] = size(XTrain);
 YPred = zeros(n,1);
 
-
 % Predict whether the label is 0 or 1 using learned logistic regression parameters theta
 % Computes the predictions for XTrain using a 
 % threshold at 0.5 (i.e., if sigmoid(theta'*XTrain) >= 0.5, predict 1)
