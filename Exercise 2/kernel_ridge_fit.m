@@ -8,10 +8,8 @@ function [meanSqError, EstVecAlpha] = kernel_ridge_fit(X, Y, kernel)
 %  the mean squared error on the training samples.
 
 meanSqError = 0;
-
 [n,m] = size(X);
-
-EstVecAlpha = zeros(size(n));
+EstVecAlpha = zeros(n,1);
 
 
 end
