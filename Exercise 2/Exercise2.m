@@ -58,26 +58,86 @@ Coeff = olsfit(X, Y);
 
 %% =========== Part 2: Logistic Regression =============
 
+% Load the SA Heart file from the sub directory data excluding the Header Row containing the column names.
+
+%header = textscan(fullfile('data', 'SAheart.csv'), '%s %s %s %s %s %s %s %s %s %s', 1, 'delimiter', ',');
+
+% fid = fopen(fullfile('data', 'SAheart.csv'));
+% D = cell2mat(textscan(fid, '%s%s%s%s', 'headerlines', 2));
+% 
+% [A,B,C,D,E,F,G,H,I,J] = textscan(fullfile('data', 'SAheart.csv'), '%f %f %f %f %s %f %f %f %f %f', 'delimiter', ',', 'Headerlines',2);
+% A(1:10)
+% NUM_E = zeros(size(E));
+% NUM_E = strcmp('Present', E);
+% X = [A,B,C,D,NUM_E,F,G,H,I] ;
+% 
+% 
+% f = fopen (fullfile('data', 'SAheart.csv'));
+% %C = textscan(f, '%n %n %n %n %s %n %n %n %n %n', 'Delimiter', ',', 'HeaderLines', 1);
+% 
+% [A,B,C,D,E,F,G,H,I,J] = textread(f, '%n %n %n %n %s %n %n %n %n %n', 'Delimiter', ',', 'HeaderLines', 1);
+% 
+% A = C{1,1};
+% B = C{1,2};
+% C = C{1,3};
+% D = C{1,4};
+% E = C{1,5};
+% F = C{1,6};
+% G = C{1,7};
+% H = C{1,8};
+% I = C{1,9};
+% J = C{1,10};
+% 
+% fclose(f);
+% 
+% sizeE = size(E,1);
+% newE = zeros(sizeE,1);
+% 
+% for i = 1:sizeE
+%     newE(i,1) = strcmp('"Present"',E(i,1));
+% end
+% 
+% X  = [A,B,C,D,newE,F,G,H,I];
+% Y = J;
+
+
+% Load the file from the sub directory data excluding the Header Row containing the column names.
+X = csvread(fullfile('data', 'SAHeartNumeric.csv'),1,0);
+Y = X(:,10);
+X = X(:,1:9);
+
+% Add intercept term to X
+[n,m] = size(X);
+X = [ones(n, 1) X];
+
 % =========== Part 2 a:  =============
 % Call the function lrirlsfit to get the maximum likelihood estimate (MLE) of the coefficients
-[maxLikelihoodEstimate, logLikelihood] = lrirlsfit(X, Y);
+[Coeff, Cost] = lrirlsfit(X, Y);
 
 % =========== Part 2 b i: Logistic Regression Model for the SAheart data set. =============
-% Call the function to get a model that contains only the intercept (null model), i.e. no features are considered.
-
+% Call the sigmoid function to get a model that contains only the intercept (null model), i.e. no features are considered.
+nullFeatureModel = nullFeatureModelLogReg(X, Y, Coeff);
 
 % =========== Part 2 b ii: Multiple Models each considering a single feature. =============
 % Call the function 
-
+multipleModels = multipleFeatureModelsLogReg(X, Y, Coeff);
 
 % =========== Part 2 b iii: Likelihood Ratio Test =============
-% Call the function likelihood_ratio_test
+% Call the function likelihood_ratio_test to compare the single feature models to the null model.
 
 
 % =========== Part 2 b iv: p-value of the likelihoodratio test =============
 
 
 % =========== Part 2 b v: Model which considers multiple features, incrementally by one. =============
+% Create a model which considers multiple features by starting with the null model and adding one additional feature at a time. 
+% To determine which feature to add, use the p-value as returned by the likelihood-ratio test.
+% Extended models with one additional feature, where
+%  the p-value is greater than 0.05, should not be considered.
+%  In each step choose the model with the smallest p-value.
+% Continue until all features have been selected or the model cannot be improved significantly any more.
+
+
 % Call the function 
 
 

@@ -1,4 +1,4 @@
-function [SingleModel, HighestCoeff, HighestCoeffIdx, LowestCoeff, LowestCoeffIdx] = createSingleModel(X, Y, Coeff);
+function [SingleModel, HighestCoeff, HighestCoeffIdx, LowestCoeff, LowestCoeffIdx] = createSingleModel(X, Y, Coeff)
 % Create a function scatterSingleModel, which takes as input arguments
 %  matrix X of R(n X m) of samples and
 %  vector Y of R(n X 1) of outcomes for each sample.
