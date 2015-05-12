@@ -12,7 +12,7 @@ I = imread('Lenna.jpg');
 
 % Displaying an Image.
 imshow(I);
-%imagesc(sampleImage);
+
 
 %% =========== Part 1: Bank of filters =============
 %  Call the function standard_filters.m
@@ -43,7 +43,10 @@ sigma = randi(5)/4;
 
 % =========== Part 2 a: Integral Image =============
 % Call the function integral_image
-Ii = integral_image(I);
+
+% Use the Matlab function to compute an integral image of the input intensity image, I. The function zero-pads the top and left side of the output integral image, Ii. 
+%Ii = integral_image(I);
+Ii = integralImage(I);
 
 % Displaying the Integral Image.
 imshow(Ii);

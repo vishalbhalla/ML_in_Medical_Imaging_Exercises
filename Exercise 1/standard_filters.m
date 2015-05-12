@@ -57,13 +57,13 @@ for f = 1:fcount
         DeltaDiagColumn(rows,1) = (-I(rows-1, 1+1))./2;
         
         for j = 2:columns-1
-            DeltaDiagRow(1,j) = (I(1+1, j-1))./2;
-            DeltaDiagRow(rows,j) = (-I(rows-1, j+1))./2;
+            DeltaDiagColumn(1,j) = (I(1+1, j-1))./2;
+            DeltaDiagColumn(rows,j) = (-I(rows-1, j+1))./2;
         end
         
         for i = 2:rows-1
             for j = 2:columns-1
-                DeltaDiagRow(i,j) = (I(i+1, j-1)- I(i-1, j+1))./2;
+                DeltaDiagColumn(i,j) = (I(i+1, j-1)- I(i-1, j+1))./2;
             end
         end  
         
@@ -76,52 +76,27 @@ for f = 1:fcount
         
     elseif strcmp(filters(f),'mean')
         
-        meanVal = 0;
-        % Calculate the top-left co-ordinates
-        startR = (size(I,1)-4*side - 10)/2;
-        startC = (size(I,2)-8*side - 2)/2;
-        
-        patch = size(side); % Select out the patch to compute the mean over it using library function.
-        p=1; q=1;
-        for i = startR:(startR +side)
-            for j = startC:(startC +side)
-                patch(p,q) = I(i,j);
-                q = q+1;
-            end
-            q = 1;
-            p = p+1;
-        end
-        meanVal = mean(patch);
-        X = [X;meanVal];
-        imshow(patch);
+        % Use the Matlab function colfilt  processes the image A by rearranging each side-by-side block of I into a column of a temporary matrix, and then applying the function mean to this matrix.
+        % The function colfilt zero-pads A, if necessary and saves memory. 
+        meanVal = colfilt(I,[side side],'sliding',@mean);
+        meanImage = mat2gray(meanVal);
+        X = [X;meanVal];        
+        imshow(meanImage);
 
     elseif strcmp(filters(f),'std')
         
-        sd = 0;
-        % Calculate the top-left co-ordinates
-        startR = (size(I,1)-4*side - 10)/2;
-        startC = (size(I,2)-8*side - 2)/2;
-        patch = size(side); % Select out the patch to compute the mean over it using library function.
-        p=1; q=1;
-
-        for i = startR:(startR +side)
-            for j = startC:(startC +side)
-                patch(p,q) = I(i,j);
-                q = q+1;
-            end
-            q = 1;
-            p = p+1;
-        end
+        stdVal = colfilt(double(I),[side side],'sliding',@std);
+        stdValImage = mat2gray(stdVal);
+        X = [X;stdVal];
+        imshow(stdValImage);
         
-        sd = std(patch);
-        X = [X;sd];
-        imshow(patch);
-     
     elseif strcmp(filters(f),'gaussian')
         
         hsize = 6*sigma + 1;
         K = fspecial('gaussian', floor(hsize), sigma);
         crossCorelationProduct = imfilter(I,K,'replicate','same');
+        crossCorelationProductImage = mat2gray(crossCorelationProduct);
+        imshow(crossCorelationProductImage);
         X = [X;crossCorelationProduct];
         imshow(crossCorelationProduct);
         
