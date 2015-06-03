@@ -14,12 +14,23 @@ confMat2by2(1,1) = confusionMatrix(idxClassOfInterest, idxClassOfInterest);
 confMat2by2(1,2) = sum(confusionMatrix(idxClassOfInterest, :));
 % False Negative
 confMat2by2(2,1) = sum(confusionMatrix(:, idxClassOfInterest));
-% True Negative
-confMat2by2(2,2) = trace(confusionMatrix);
 
-% Remove the extra True Positive added to all of the False Positive, False Negative and True Negative above.
+% True Negative
+%confMat2by2(2,2) = trace(confusionMatrix);
+
+% Remove the extra True Positive added to all of the False Positive and False Negative above.
 confMat2by2(1,2) =  confMat2by2(1,2) - confMat2by2(1,1);
 confMat2by2(2,1) =  confMat2by2(2,1) - confMat2by2(1,1); 
-confMat2by2(2,2) =  confMat2by2(2,2) - confMat2by2(1,1);
+%confMat2by2(2,2) =  confMat2by2(2,2) - confMat2by2(1,1);
+
+
+% True Negative
+confMat2by2(2,2) = sum(sum(confusionMatrix));
+
+% Remove the rows and columns w.r.t. the class of interest for computing the True Negative.
+confMat2by2(2,2) = confMat2by2(2,2) - confMat2by2(1,2) - confMat2by2(2,1);
+
+% Add the extra True Positive removed from the True Negative twice above.
+confMat2by2(2,2) =  confMat2by2(2,2) + confMat2by2(1,1);
 
 end
