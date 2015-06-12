@@ -15,8 +15,10 @@ epsConvergence = 1;
 % Initialize the Co-efficient Beta vector to all zeros.
 B = zeros(m,1);
 newB = B;
+model_new = [];
+epsConvLimit = 10^-8;
 
-while epsConvergence >= 0.001
+while epsConvergence > epsConvLimit
     % Use the sigmoid function to compute the matrix pi.
     pi = sigmoid(X*B);
     % Now use the computed values to build the Weight Diagonal Matrix.
@@ -25,22 +27,26 @@ while epsConvergence >= 0.001
     % Now compute the newly estimated co-efficients B using the wlsfit function already provided.
     newB = wlsfit( X, Y, w );
     
-    model_new = pi;
-    model_old = sigmoid(X*newB);
-    
-    % Calculate the deviance for both old and new models based on the B parameters.
-    DevNewB = -2 * sum(log(model_new));
-    DevOldB = -2 * sum(log(model_old));
-    
+%     model_old = pi;
+%     model_new = sigmoid(X*newB);
+%     
+%     % Calculate the deviance for both old and new models based on the B parameters.
+%     DevNewB = -2 * sum(log(model_new));
+%     DevOldB = -2 * sum(log(model_old));
+
+    DevOldB = -2 * logRegLogLikelihood(B, X, Y);
+    DevNewB = -2 * logRegLogLikelihood(newB, X, Y);
+
+
     % Check the convergency criteria based on the co-efficients B.
     epsConvergence = abs(DevNewB - DevOldB)/(abs(DevOldB)+0.1);
     B = newB;
 end
 
-% Once we have the newB co-efficient vector which is the maximum likelihood estimate for logistic regression
+% The newB co-efficient vector is the maximum likelihood estimate.
 maxLikelihoodEstimate = newB;
 
-% We can use this to compute the log-likelihood of the model which we calculated earlier.
-logLikelihood = -2 * sum(model_new);
+% Compute the log-likelihood of the model for logistic regression using the new Beta as coefficients.
+logLikelihood = logRegLogLikelihood(newB, X, Y);
 
 end
