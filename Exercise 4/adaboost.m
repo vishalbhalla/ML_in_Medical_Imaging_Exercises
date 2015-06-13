@@ -1,5 +1,6 @@
 n = 1000;   % number of data points
-T = 1;    % number of iterations
+%T = 1;    % number of iterations
+T = 100;    % number of iterations
 
 % Generate the training and testing set
 [X_train, Y_train] = generate_data(n);
@@ -13,6 +14,9 @@ F_test = zeros(n,1);    % evaluated on the testing set
 error_train = zeros(T,1);
 error_test = zeros(T,1);
 
+
+%% 1. Compute parameter alpha & updated weights w within the boosting loop.
+
 % Initialization of the weights
 W = ones(n,1) / n; 
 
@@ -24,8 +28,16 @@ for i=1:T
     
     % TODO: compute alpha
     alpha = 0;
+    
+    % Calculate the error rate.
+    epsilon = sum(W.*(f~=Y_train))/sum(W);
+    
+    alpha = 0.5 * log((1-epsilon)/epsilon);
+    
     % TODO: update the weights
-    W = W;
+    weightComponent = exp(-alpha.*Y_train.*f);
+    Z = sum(W.*weightComponent);
+    W = (W.*weightComponent)./Z;
     
     % Update the strong classifier and compute the error
     F_train = F_train + alpha * f;
@@ -38,4 +50,19 @@ for i=1:T
 end
 
 % TODO: add you plots here
+
+%% 2. Plot the testing set Xtest, displaying the points with a different color for each label
+% (e.g. red for Y = -1, blue for Y = +1). 
+% Use two different plots: one with the true labels Ytest, and 
+% One with the labels predicted by your boosted classifier (F), and
+% Compare the two plots.
+
+
+%% 2a. Plot with the true labels Y_test.
+
+
+%% 2b. Plot with the labels predicted by boosted classifier (F).
+
+
+%% 3. Plot the evolution of the training error and testing error during 100 iterations and report what you observe.
 
