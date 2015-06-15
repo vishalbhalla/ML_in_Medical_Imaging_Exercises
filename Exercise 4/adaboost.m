@@ -57,8 +57,20 @@ end
 % One with the labels predicted by your boosted classifier (F), and
 % Compare the two plots.
 
-
 %% 2a. Plot with the true labels Y_test.
+
+blue = X_test(Y_test==1,:);
+red = X_test(Y_test==-1,:);
+
+% Show the data
+figure(1);
+plot(blue(:,1),blue(:,2),'b*');
+hold on;
+plot(red(:,1),red(:,2),'r*');
+axis equal;
+title('Test Data classified with the true labels');
+
+hold on;
 
 
 %% 2b. Plot with the labels predicted by boosted classifier (F).
