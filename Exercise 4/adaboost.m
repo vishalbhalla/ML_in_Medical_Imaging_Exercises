@@ -75,6 +75,26 @@ hold on;
 
 %% 2b. Plot with the labels predicted by boosted classifier (F).
 
+% Convert the labels of F_test into +1 and -1.
+% Draw a line in one dimension (like horizontal or vertical)
+% and classify everything below the line to one of the 2 classes
+% and everything above the line to the other class.
+
+F_test(F_test >= 0) = 1;
+F_test(F_test < 0) = -1;
+
+% Show result
+blue = X_test(F_test==1,:);
+red = X_test(F_test==-1,:);
+
+% Show the data
+figure(2);
+plot(blue(:,1),blue(:,2),'b*');
+hold on;
+plot(red(:,1),red(:,2),'r*');
+axis equal;
+title('Test Data classified labels predicted by AdaBoost classifier');
+
 
 %% 3. Plot the evolution of the training error and testing error during 100 iterations and report what you observe.
 
