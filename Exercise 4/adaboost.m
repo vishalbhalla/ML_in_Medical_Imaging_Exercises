@@ -98,3 +98,11 @@ title('Test Data classified labels predicted by AdaBoost classifier');
 
 %% 3. Plot the evolution of the training error and testing error during 100 iterations and report what you observe.
 
+trainIterations = linspace(0,1,T);
+%trainIterations = 1:T;
+testIterations = trainIterations;
+figure(3);
+plot(trainIterations, error_train, testIterations, error_test);
+title('Evolution of training and testing error during 100 iterations');
+ylabel('Train & Test Errors');
+xlabel('Iterations');
