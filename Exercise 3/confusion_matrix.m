@@ -5,23 +5,27 @@ function confMat = confusion_matrix(groundTruth, Predictions)
 % Returns 
 %  A k × k matrix, where k indicates the number of classes present in the ground truth.
 
-totalLabels = size(groundTruth,2);
+totalLabels = size(groundTruth,1);
 totalClasses = unique(groundTruth);
-k = size(totalClasses,2);
+k = size(totalClasses,1);
 confMat = zeros(k,k);
 
-nxt = 1;
-for ctRow=nxt:totalLabels % Rows indicate Prediction values.
-    for ctCol=nxt:totalLabels % Cols indicate Ground Truth values.
-        predicttedClassNoRow = Predictions(ctRow);
-        groundTruthClassNoCol = groundTruth(ctCol);
+for ctRow=1:totalLabels % Iterate over Prediction and Ground Truth values.
+    predicttedClassNoRow = Predictions(ctRow);
+    groundTruthClassNoCol = groundTruth(ctRow);
         
-        % Update the corresponding row and column value in the Confusion Matrix.
-        confMat(predicttedClassNoRow,groundTruthClassNoCol) = confMat(predicttedClassNoRow,groundTruthClassNoCol) + 1;
-        
-        nxt = nxt+1;
-        break;
-    end 
+    % Update the corresponding row and column value in the Confusion Matrix.
+    
+    % If one of the classes is zero, assign it as the last class of the Confusion Matrix.
+    if(predicttedClassNoRow == 0)
+        predicttedClassNoRow = k;
+    end
+    if(groundTruthClassNoCol == 0)
+        groundTruthClassNoCol = k;
+    end
+    
+    confMat(predicttedClassNoRow,groundTruthClassNoCol) = confMat(predicttedClassNoRow,groundTruthClassNoCol) + 1;
+
 end
 
 end

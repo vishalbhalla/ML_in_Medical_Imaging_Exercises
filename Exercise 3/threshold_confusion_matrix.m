@@ -6,7 +6,7 @@ function confMat2by2 = threshold_confusion_matrix(groundTruth, Predictions, thre
 % The implementation should iterate over the predictions only a single time,
 % i.e. its complexity should be O(n).
 
-totalLabels = size(groundTruth,2);
+totalLabels = size(groundTruth,1);
 confMat2by2 = zeros(2,2);
 
 for ctRow=1:totalLabels % Rows indicate Prediction values.
