@@ -26,20 +26,19 @@ while epsConvergence > epsConvLimit
     
     % Now compute the newly estimated co-efficients B using the wlsfit function already provided.
     newB = wlsfit( X, Y, w );
-    
-%     model_old = pi;
-%     model_new = sigmoid(X*newB);
-%     
-%     % Calculate the deviance for both old and new models based on the B parameters.
-%     DevNewB = -2 * sum(log(model_new));
-%     DevOldB = -2 * sum(log(model_old));
+      
+    % Calculate the deviance for both old and new models based on the B parameters.
 
     DevOldB = -2 * logRegLogLikelihood(B, X, Y);
     DevNewB = -2 * logRegLogLikelihood(newB, X, Y);
-
+    
+%     DevOldB = logRegLogLikelihood(B, X, Y);
+%     DevNewB = logRegLogLikelihood(newB, X, Y);
 
     % Check the convergency criteria based on the co-efficients B.
     epsConvergence = abs(DevNewB - DevOldB)/(abs(DevOldB)+0.1);
+    %epsConvergence = -2 * (DevOldB- DevNewB);
+    
     B = newB;
 end
 
