@@ -116,20 +116,27 @@ X = [ones(n, 1) X];
 
 % =========== Part 2 b i: Logistic Regression Model for the SAheart data set. =============
 % Call the sigmoid function to get a model that contains only the intercept (null model), i.e. no features are considered.
-nullFeatureModel = nullFeatureModelLogReg(X, Y, Coeff);
+[nullFeatureModelBeta, nullFeatureModelX, nullFeatureModelY, scatterPlot] = nullFeatureModelLogReg(X, Y, Coeff);
 
 % =========== Part 2 b ii: Multiple Models each considering a single feature. =============
 % Call the function 
-multipleModels = multipleFeatureModelsLogReg(X, Y, Coeff);
+[MultipleModelsBeta, MultipleModelsX, MultipleModelsY, ScatterPlots] = multipleFeatureModelsLogReg(X, Y, Coeff);
 
-% =========== Part 2 b iii: Likelihood Ratio Test =============
+% =========== Part 2 c: Likelihood Ratio Test =============
 % Call the function likelihood_ratio_test to compare the single feature models to the null model.
 
+NoOfSingleFeatureModels = size(MultipleModelsBeta,1);
+pValueDStats = zeros(NoOfSingleFeatureModels,1);
 
-% =========== Part 2 b iv: p-value of the likelihoodratio test =============
+for i=1:NoOfSingleFeatureModels
+    [pValueDStats(i,1), pValueDStats(i,2)] = likelihood_ratio_test(MultipleModelsBeta{i}, MultipleModelsX{i}, MultipleModelsY{i}, nullFeatureModelBeta, nullFeatureModelX, nullFeatureModelY);
+end
 
+% =========== Part 2 d: p-value of the likelihoodratio test =============
+[minPVal, minPValIdx] = min(pValueDStats,1);
+%bestFeature = 
 
-% =========== Part 2 b v: Model which considers multiple features, incrementally by one. =============
+% =========== Part 2 e: Model which considers multiple features, incrementally by one. =============
 % Create a model which considers multiple features by starting with the null model and adding one additional feature at a time. 
 % To determine which feature to add, use the p-value as returned by the likelihood-ratio test.
 % Extended models with one additional feature, where

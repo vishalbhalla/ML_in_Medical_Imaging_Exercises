@@ -11,5 +11,8 @@ meanSqError = 0;
 [n,m] = size(X);
 EstVecAlpha = zeros(n,1);
 
+% Definition (Kernel SVM)
+% f(x0) = B0 + K(xi , x0)
+
 
 end
